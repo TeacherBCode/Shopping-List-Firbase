@@ -21,18 +21,25 @@ addButtonEl.addEventListener("click", function() {
     clearInputFieldEl()
 })
 
-onValue(shoppingListInDB, function(snapshot) {
-    let itemsArray = Object.entries(snapshot.val())
-    
-    clearShoppingListEl()
-    
-    for (let i = 0; i < itemsArray.length; i++) {
-        let currentItem = itemsArray[i]
-        let currentItemID = currentItem[0]
-        let currentItemValue = currentItem[1]
-        
-        appendItemToShoppingListEl(currentItem)
+onValue(shoppingListInDB, function (snapshot) {
+
+    if (snapshot.exists()) {
+
+        let itemsArray = Object.entries(snapshot.val())
+
+        clearShoppingListEl()
+
+        for (let i = 0; i < itemsArray.length; i++) {
+            let currentItem = itemsArray[i]
+            let currentItemID = currentItem[0]
+            let currentItemValue = currentItem[1]
+
+            appendItemToShoppingListEl(currentItem)
+        }
+    } else {
+        shoppingListEl.innerHTML = "No Items in here... Yet...."
     }
+
 })
 
 function clearShoppingListEl() {
@@ -50,7 +57,7 @@ function appendItemToShoppingListEl(item) {
     let newEl = document.createElement("li")
     
     newEl.textContent = itemValue
-    
+    newEl.setAttribute("tabindex","0");
     newEl.addEventListener("click", function() {
         let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
         
