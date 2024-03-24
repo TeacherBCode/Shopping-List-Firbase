@@ -58,7 +58,7 @@ function appendItemToShoppingListEl(item) {
     
     newEl.textContent = itemValue
     newEl.setAttribute("tabindex","0");
-    newEl.addEventListener("click", function() {
+    newEl.addEventListener("dblclick", function() {
         let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
         
         remove(exactLocationOfItemInDB)
